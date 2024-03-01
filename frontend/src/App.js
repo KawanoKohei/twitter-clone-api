@@ -1,34 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Tweet from "./contents/Tweet";
 
 const App = () => {
 
-  const [value,setValue] = useState([]);
+  const [tweets,setTweets] = useState([]);
 
-  const url = "http://localhost:8000/api/test";
+  // const url = "http://localhost:8000/api/test";
 
-  useEffect(()=>{
-    (async ()=>{
-      try{
-        const res = await axios.get(url);
-	      setValue(res.data.post);
-        return;
-      }catch (e){
-        return e;
-      }
-    })();
+  useEffect(() => {
+    axios
+      .get('http://localhost:8000/api/tweets/')
+      .then((response) => setTweets(response.data))
+      .catch((error) => console.log(error));
   },[]);
   
   return (
     <>
-      {value.map((article)=>{
-        return (
-          <div key={article.id}>
-            <h1>{article.title}</h1>
-            <p>{article.content}</p>
-          </div>
-        )
-      })}
+      <h1>ツイート</h1>
+      <h1>ツイート一覧</h1>
+      <Tweet tweets={tweets}/>
     </>
   );
 }

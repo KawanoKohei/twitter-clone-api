@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\TweetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//sanctum：認証ミドルウェア、sanctumを使用したときに使用するエンドポイント
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('test',[TestController::class,'index']);
+Route::apiResource('/tweets', TweetController::class);
