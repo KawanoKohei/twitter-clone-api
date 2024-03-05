@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tweet;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -12,9 +13,9 @@ class TweetController extends Controller
      * ツイート一覧機能
      *
      * @param Tweet $tweetInstance
-     * @return json
+     * @return JsonResponse
      */
-    public function index(Tweet $tweetInstance):json
+    public function index(Tweet $tweetInstance):JsonResponse
     {
         $tweets = $tweetInstance->index();
 
@@ -28,13 +29,13 @@ class TweetController extends Controller
      *
      * @param Request $request
      * @param Tweet $tweetInstance
-     * @return json
+     * @return JsonResponse
      */
-    public function store(Request $request, Tweet $tweetInstance):json
+    public function store(Request $request, Tweet $tweetInstance):JsonResponse
     {
         try {
             $tweetInstance->user_id = 5;    //ログイン認証機能追加->ログインユーザーID
-            $tweetInstance->content = $request->content;
+            $tweetInstance->content = $request->tweet;
             $tweetInstance->store();
             $tweets = $tweetInstance->index();
             return response()->json($tweets,201);

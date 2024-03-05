@@ -22,10 +22,10 @@ const App = () => {
   const handleSaveTweet = () => {
     axios
       .post('http://127.0.0.1:8000/api/tweets', {
-        content: content
+        content: tweet
       })
       .then((response) => setTweets(response.data))
-      .then(() => setContent(''))
+      .then(() => setTweet(''))
       .catch((error) => console.log(error));
   }
   
