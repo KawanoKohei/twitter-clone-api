@@ -1,25 +1,40 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Tweet from "./contents/Tweet";
+import Index from "./contents/Index";
+import CreateTweet from "./contents/CreateTweet";
 
 const App = () => {
 
   const [tweets,setTweets] = useState([]);
 
-  // const url = "http://localhost:8000/api/test";
-
   useEffect(() => {
     axios
-      .get('http://localhost:8000/api/tweets/')
+      .get('http://127.0.0.1:8000/api/tweets')
       .then((response) => setTweets(response.data))
       .catch((error) => console.log(error));
   },[]);
+
+  const [tweet, setTweet] = useState('');
+  const handleCreateTweet = (event) => {
+    setTweet(event.target.value);
+  }
+
+  const handleSaveTweet = () => {
+    axios
+      .post('http://127.0.0.1:8000/api/tweets', {
+        content: content
+      })
+      .then((response) => setTweets(response.data))
+      .then(() => setContent(''))
+      .catch((error) => console.log(error));
+  }
   
   return (
     <>
-      <h1>ツイート</h1>
+      <h1>ツイート機能</h1>
+      <CreateTweet onChange={handleCreateTweet} onClick={handleSaveTweet}/>
       <h1>ツイート一覧</h1>
-      <Tweet tweets={tweets}/>
+      <Index tweets={tweets} />
     </>
   );
 }

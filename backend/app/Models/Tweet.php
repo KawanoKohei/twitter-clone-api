@@ -19,4 +19,9 @@ class Tweet extends Model
             ->orderBy('updated_at','desc')
             ->get();
     }
+
+    public function store()
+    {
+        $this->save();
+    }
 }

@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Tweet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TweetController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * ツイート一覧機能
+     *
+     * @param Tweet $tweetInstance
+     * @return json
      */
-    public function index(Tweet $tweetInstance)
+    public function index(Tweet $tweetInstance):json
     {
         $tweets = $tweetInstance->index();
 
@@ -20,11 +24,23 @@ class TweetController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * ツイート保存機能
+     *
+     * @param Request $request
+     * @param Tweet $tweetInstance
+     * @return json
      */
-    public function store(Request $request)
+    public function store(Request $request, Tweet $tweetInstance):json
     {
-        //
+        try {
+            $tweetInstance->user_id = 5;    //ログイン認証機能追加->ログインユーザーID
+            $tweetInstance->content = $request->content;
+            $tweetInstance->store();
+            $tweets = $tweetInstance->index();
+            return response()->json($tweets,201);
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
     }
 
     /**

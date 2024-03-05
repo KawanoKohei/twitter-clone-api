@@ -1,6 +1,7 @@
 import React from 'react'
 
-const Tweet = (props) => {
+const Index = (props) => {
+  
   return (
     <>
         {props.tweets.map((tweet) => 
@@ -13,4 +14,4 @@ const Tweet = (props) => {
   )
 }
 
-export default Tweet
+export default Index
